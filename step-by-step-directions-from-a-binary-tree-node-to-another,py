@@ -1,0 +1,23 @@
+class Solution:
+    def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
+        def search(node, val, path):
+            if node.val == val:
+                return True
+            
+            if node.left and search(node.left,val,path):
+                path += "L"
+            
+            elif node.right and search(node.right,val,path):
+                path+="R"
+
+            return path
+
+        spath, dpath = [], []
+        search(root,startValue,spath)
+        search(root,destValue,dpath)
+
+        while len(spath) and len(dpath) and spath[-1]==dpath[-1]:
+            spath.pop()
+            dpath.pop()
+
+        return "".join("U"*len(spath)) + "".join(reversed(dpath))
